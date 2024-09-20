@@ -1,0 +1,17 @@
+{
+  "groups": [
+    {
+      "name": "com.coding.pan.bloom.filter.local",
+      "type": "com.coding.pan.bloom.filter.local.LocalBloomFilterConfig",
+      "sourceType": "com.coding.pan.bloom.filter.local.LocalBloomFilterConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "com.coding.pan.bloom.filter.local.items",
+      "type": "java.util.List<com.coding.pan.bloom.filter.local.LocalBloomFilterConfigItem>",
+      "sourceType": "com.coding.pan.bloom.filter.local.LocalBloomFilterConfig"
+    }
+  ],
+  "hints": []
+}

@@ -1,0 +1,24 @@
+{
+  "groups": [
+    {
+      "name": "com.coding.pan.storage.engine.local",
+      "type": "com.coding.pan.storage.engine.local.config.LocalStorageEngineConfig",
+      "sourceType": "com.coding.pan.storage.engine.local.config.LocalStorageEngineConfig"
+    }
+  ],
+  "properties": [
+    {
+      "name": "com.coding.pan.storage.engine.local.root-file-chunk-path",
+      "type": "java.lang.String",
+      "description": "实际存放文件分片的路径的前缀",
+      "sourceType": "com.coding.pan.storage.engine.local.config.LocalStorageEngineConfig"
+    },
+    {
+      "name": "com.coding.pan.storage.engine.local.root-file-path",
+      "type": "java.lang.String",
+      "description": "实际存放路径的前缀",
+      "sourceType": "com.coding.pan.storage.engine.local.config.LocalStorageEngineConfig"
+    }
+  ],
+  "hints": []
+}
