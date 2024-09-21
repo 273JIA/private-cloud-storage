@@ -18,7 +18,6 @@
     <artifactId>r-pan-parent</artifactId>
     <version>1.0</version>
     <name>r-pan-parent</name>
-    <description>R Pan项目服务端</description>
     <packaging>pom</packaging>
 
     <properties>
