@@ -13,7 +13,7 @@ public interface FileConstants {
     /**
      * 根文件夹名称
      */
-    String ALL_FILE_CN_STR = "全部文件";
+    String ALL_FILE_CN_STR = "All Files";
 
     /**
      * 中文左括号

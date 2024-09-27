@@ -16,7 +16,7 @@ spring:
             max-request-size: 3072MB
     datasource:
         username: root
-        password:
+        password: 230230
         url: jdbc:mysql://127.0.0.1:3306/r-pan?characterEncoding=utf8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
         driver-class-name: com.mysql.cj.jdbc.Driver
     cloud:
@@ -118,6 +118,7 @@ com:
             #                        auto-create-bucket:
             server:
                 share-prefix: http://127.0.0.1:5173/share/
+                #share-prefix: https://cloakdrive.online/share/
             bloom:
                 filter:
                     local:

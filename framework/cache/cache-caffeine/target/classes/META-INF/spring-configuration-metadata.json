@@ -10,20 +10,23 @@
     {
       "name": "com.coding.pan.cache.caffeine.allow-null-value",
       "type": "java.lang.Boolean",
-      "description": "是否允许空值null作为缓存的value com.coding.pan.cache.caffeine.allow-null-value",
-      "sourceType": "com.coding.pan.cache.caffeine.config.CaffeineCacheProperties"
+      "description": "Caffeine缓存是否允许null作为value的属性",
+      "sourceType": "com.coding.pan.cache.caffeine.config.CaffeineCacheProperties",
+      "defaultValue": "true"
     },
     {
       "name": "com.coding.pan.cache.caffeine.init-cache-capacity",
       "type": "java.lang.Integer",
-      "description": "缓存初始容量 com.coding.pan.cache.caffeine.init-cache-capacity",
-      "sourceType": "com.coding.pan.cache.caffeine.config.CaffeineCacheProperties"
+      "description": "Caffeine缓存的初始容量",
+      "sourceType": "com.coding.pan.cache.caffeine.config.CaffeineCacheProperties",
+      "defaultValue": 256
     },
     {
       "name": "com.coding.pan.cache.caffeine.max-cache-capacity",
       "type": "java.lang.Long",
-      "description": "缓存最大容量，超过之后会按照recently or very often（最近最少）策略进行缓存剔除 com.coding.pan.cache.caffeine.max-cache-capacity",
-      "sourceType": "com.coding.pan.cache.caffeine.config.CaffeineCacheProperties"
+      "description": "Caffeine缓存的最大容量",
+      "sourceType": "com.coding.pan.cache.caffeine.config.CaffeineCacheProperties",
+      "defaultValue": "10000L"
     }
   ],
   "hints": []

@@ -100,7 +100,7 @@ public enum FileTypeEnum {
         if (result.isPresent()) {
             return result.get().getCode();
         }
-        throw new RPanBusinessException("获取文件类型失败");
+        throw new RPanBusinessException("Failed to get file type");
     }
 
 }

@@ -10,27 +10,37 @@
     {
       "name": "com.coding.pan.storage.engine.oss.access-key-id",
       "type": "java.lang.String",
-      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig"
+      "description": "accessKeyId",
+      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig",
+      "defaultValue": ""
     },
     {
       "name": "com.coding.pan.storage.engine.oss.access-key-secret",
       "type": "java.lang.String",
-      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig"
+      "description": "accessKeySecret",
+      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig",
+      "defaultValue": ""
     },
     {
       "name": "com.coding.pan.storage.engine.oss.auto-create-bucket",
       "type": "java.lang.Boolean",
-      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig"
+      "description": "是否自动创建桶",
+      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig",
+      "defaultValue": true
     },
     {
       "name": "com.coding.pan.storage.engine.oss.bucket-name",
       "type": "java.lang.String",
-      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig"
+      "description": "桶名称",
+      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig",
+      "defaultValue": ""
     },
     {
       "name": "com.coding.pan.storage.engine.oss.endpoint",
       "type": "java.lang.String",
-      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig"
+      "description": "文件上传的断端点",
+      "sourceType": "com.coding.pan.storage.engine.oss.config.OssStorageEngineConfig",
+      "defaultValue": ""
     }
   ],
   "hints": []

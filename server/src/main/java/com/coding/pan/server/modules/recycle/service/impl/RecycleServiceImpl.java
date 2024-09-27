@@ -113,7 +113,7 @@ public class RecycleServiceImpl implements IRecycleService {
         List<RPanUserFile> allRecords = context.getAllRecords();
         List<Long> fileIdList = allRecords.stream().map(RPanUserFile::getFileId).collect(Collectors.toList());
         if (!iUserFileService.removeByIds(fileIdList)) {
-            throw new RPanBusinessException("文件删除失败");
+            throw new RPanBusinessException("File Deletion Failed");
         }
     }
 
@@ -139,7 +139,7 @@ public class RecycleServiceImpl implements IRecycleService {
         queryWrapper.in("file_id", context.getFileIdList());
         List<RPanUserFile> records = iUserFileService.list(queryWrapper);
         if (CollectionUtils.isEmpty(records) || records.size() != context.getFileIdList().size()) {
-            throw new RPanBusinessException("您无权删除该文件");
+            throw new RPanBusinessException("You are not authorised to delete the file");
         }
         context.setRecords(records);
     }
@@ -170,7 +170,7 @@ public class RecycleServiceImpl implements IRecycleService {
         });
         boolean updateFlag = iUserFileService.updateBatchById(records);
         if (!updateFlag) {
-            throw new RPanBusinessException("文件还原失败");
+            throw new RPanBusinessException("File restore failed");
         }
     }
 
@@ -187,7 +187,7 @@ public class RecycleServiceImpl implements IRecycleService {
 
         Set<String> filenameSet = records.stream().map(record -> record.getFilename() + RPanConstants.COMMON_SEPARATOR + record.getParentId()).collect(Collectors.toSet());
         if (filenameSet.size() != records.size()) {
-            throw new RPanBusinessException("文件还原失败，该还原文件中存在同名文件，请逐个还原并重命名");
+            throw new RPanBusinessException("File restore failed, there are files with the same name in the restore file, please restore and rename them one by one");
         }
 
         for (RPanUserFile record : records) {
@@ -197,7 +197,7 @@ public class RecycleServiceImpl implements IRecycleService {
             queryWrapper.eq("filename", record.getFilename());
             queryWrapper.eq("del_flag", DelFlagEnum.NO.getCode());
             if (iUserFileService.count(queryWrapper) > 0) {
-                throw new RPanBusinessException("文件: " + record.getFilename() + " 还原失败，该文件夹下面已经存在了相同名称的文件或者文件夹，请重命名之后再执行文件还原操作");
+                throw new RPanBusinessException("File: " + record.getFilename() + " restore failed, a file or folder with the same name already exists under the folder, please rename it and perform the file restore again");
             }
         }
     }
@@ -211,15 +211,15 @@ public class RecycleServiceImpl implements IRecycleService {
         List<Long> fileIdList = context.getFileIdList();
         List<RPanUserFile> records = iUserFileService.listByIds(fileIdList);
         if (CollectionUtils.isEmpty(records)) {
-            throw new RPanBusinessException("文件还原失败");
+            throw new RPanBusinessException("File Restore Failed");
         }
         Set<Long> userIdSet = records.stream().map(RPanUserFile::getUserId).collect(Collectors.toSet());
         if (userIdSet.size() > 1) {
-            throw new RPanBusinessException("您无权执行文件还原");
+            throw new RPanBusinessException("You are not authorised to perform a file restore");
         }
 
         if (!userIdSet.contains(context.getUserId())) {
-            throw new RPanBusinessException("您无权执行文件还原");
+            throw new RPanBusinessException("You are not authorised to perform a file restore");
         }
         context.setRecords(records);
     }

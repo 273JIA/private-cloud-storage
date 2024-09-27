@@ -10,7 +10,9 @@
     {
       "name": "com.coding.pan.bloom.filter.local.items",
       "type": "java.util.List<com.coding.pan.bloom.filter.local.LocalBloomFilterConfigItem>",
-      "sourceType": "com.coding.pan.bloom.filter.local.LocalBloomFilterConfig"
+      "description": "需要用的布隆过滤器的集合",
+      "sourceType": "com.coding.pan.bloom.filter.local.LocalBloomFilterConfig",
+      "defaultValue": null
     }
   ],
   "hints": []

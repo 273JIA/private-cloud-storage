@@ -123,7 +123,7 @@ public class FileServiceImpl extends ServiceImpl<RPanFileMapper, RPanFile> imple
         queryWrapper.ge("expiration_time", new Date());
         List<RPanFileChunk> chunkRecoredList = iFileChunkService.list(queryWrapper);
         if (CollectionUtils.isEmpty(chunkRecoredList)) {
-            throw new RPanBusinessException("该文件未找到分片记录");
+            throw new RPanBusinessException("No record found for this file");
         }
         List<String> realPathList = chunkRecoredList.stream()
                 .sorted(Comparator.comparing(RPanFileChunk::getChunkNumber))
@@ -140,7 +140,7 @@ public class FileServiceImpl extends ServiceImpl<RPanFileMapper, RPanFile> imple
             context.setRealPath(mergeFileContext.getRealPath());
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RPanBusinessException("文件分片合并失败");
+            throw new RPanBusinessException("File merge failure");
         }
 
         List<Long> fileChunkRecordIdList = chunkRecoredList.stream().map(RPanFileChunk::getId).collect(Collectors.toList());
@@ -215,7 +215,7 @@ public class FileServiceImpl extends ServiceImpl<RPanFileMapper, RPanFile> imple
             context.setRealPath(storeFileContext.getRealPath());
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RPanBusinessException("文件上传失败");
+            throw new RPanBusinessException("File upload failure");
         }
     }
 

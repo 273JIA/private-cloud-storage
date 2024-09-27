@@ -265,7 +265,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
         RPanUserFile record = getById(context.getFileId());
         checkOperatePermission(record, context.getUserId());
         if (checkIsFolder(record)) {
-            throw new RPanBusinessException("文件夹暂不支持下载");
+            throw new RPanBusinessException("Folders are not supported for download");
         }
         doDownload(record, context.getResponse());
     }
@@ -279,10 +279,10 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
     public void downloadWithoutCheckUser(FileDownloadContext context) {
         RPanUserFile record = getById(context.getFileId());
         if (Objects.isNull(record)) {
-            throw new RPanBusinessException("当前文件记录不存在");
+            throw new RPanBusinessException("Current file record does not exist");
         }
         if (checkIsFolder(record)) {
-            throw new RPanBusinessException("文件夹暂不支持下载");
+            throw new RPanBusinessException("Folders are not supported for download");
         }
         doDownload(record, context.getResponse());
     }
@@ -300,7 +300,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
         RPanUserFile record = getById(context.getFileId());
         checkOperatePermission(record, context.getUserId());
         if (checkIsFolder(record)) {
-            throw new RPanBusinessException("文件夹暂不支持下载");
+            throw new RPanBusinessException("Folders are not supported for download");
         }
         doPreview(record, context.getResponse());
     }
@@ -532,7 +532,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
             List<RPanUserFile> allRecords = Lists.newArrayList();
             prepareRecords.stream().forEach(record -> assembleCopyChildRecord(allRecords, record, context.getTargetParentId(), context.getUserId()));
             if (!saveBatch(allRecords)) {
-                throw new RPanBusinessException("文件复制失败");
+                throw new RPanBusinessException("File Copy Failure");
             }
         }
     }
@@ -594,13 +594,13 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
     private void checkCopyCondition(CopyFileContext context) {
         Long targetParentId = context.getTargetParentId();
         if (!checkIsFolder(getById(targetParentId))) {
-            throw new RPanBusinessException("目标文件不是一个文件夹");
+            throw new RPanBusinessException("Target file is not a folder");
         }
         List<Long> fileIdList = context.getFileIdList();
         List<RPanUserFile> prepareRecords = listByIds(fileIdList);
         context.setPrepareRecords(prepareRecords);
         if (checkIsChildFolder(prepareRecords, targetParentId, context.getUserId())) {
-            throw new RPanBusinessException("目标文件夹ID不能是选中文件列表的文件夹ID或其子文件夹ID");
+            throw new RPanBusinessException("The destination folder ID cannot be the folder ID of the selected files list or its sub-folder IDs");
         }
     }
 
@@ -621,7 +621,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
             handleDuplicateFilename(record);
         });
         if (!updateBatchById(prepareRecords)) {
-            throw new RPanBusinessException("文件转移失败");
+            throw new RPanBusinessException("File transfer failure");
         }
     }
 
@@ -636,13 +636,13 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
     private void checkTransferCondition(TransferFileContext context) {
         Long targetParentId = context.getTargetParentId();
         if (!checkIsFolder(getById(targetParentId))) {
-            throw new RPanBusinessException("目标文件不是一个文件夹");
+            throw new RPanBusinessException("Target file is not a folder");
         }
         List<Long> fileIdList = context.getFileIdList();
         List<RPanUserFile> prepareRecords = listByIds(fileIdList);
         context.setPrepareRecords(prepareRecords);
         if (checkIsChildFolder(prepareRecords, targetParentId, context.getUserId())) {
-            throw new RPanBusinessException("目标文件夹ID不能是选中文件列表的文件夹ID或其子文件夹ID");
+            throw new RPanBusinessException("The destination folder ID cannot be the folder ID of the selected files list or its sub-folder IDs");
         }
     }
 
@@ -737,7 +737,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
     private void doPreview(RPanUserFile record, HttpServletResponse response) {
         RPanFile realFileRecord = iFileService.getById(record.getRealFileId());
         if (Objects.isNull(realFileRecord)) {
-            throw new RPanBusinessException("当前的文件记录不存在");
+            throw new RPanBusinessException("The current file record does not exist");
         }
         addCommonResponseHeader(response, realFileRecord.getFilePreviewContentType());
         realFile2OutputStream(realFileRecord.getRealPath(), response);
@@ -757,7 +757,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
     private void doDownload(RPanUserFile record, HttpServletResponse response) {
         RPanFile realFileRecord = iFileService.getById(record.getRealFileId());
         if (Objects.isNull(realFileRecord)) {
-            throw new RPanBusinessException("当前的文件记录不存在");
+            throw new RPanBusinessException("The current file record does not exist");
         }
         addCommonResponseHeader(response, MediaType.APPLICATION_OCTET_STREAM_VALUE);
         addDownloadAttribute(response, record, realFileRecord);
@@ -778,7 +778,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
             storageEngine.realFile(context);
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RPanBusinessException("文件下载失败");
+            throw new RPanBusinessException("File download failed");
         }
     }
 
@@ -795,7 +795,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
                     FileConstants.CONTENT_DISPOSITION_VALUE_PREFIX_STR + new String(record.getFilename().getBytes(FileConstants.GB2312_STR), FileConstants.IOS_8859_1_STR));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
-            throw new RPanBusinessException("文件下载失败");
+            throw new RPanBusinessException("File download failed");
         }
         response.setContentLengthLong(Long.valueOf(realFileRecord.getFileSize()));
     }
@@ -824,10 +824,10 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
      */
     private void checkOperatePermission(RPanUserFile record, Long userId) {
         if (Objects.isNull(record)) {
-            throw new RPanBusinessException("当前文件记录不存在");
+            throw new RPanBusinessException("Current file record does not exist");
         }
         if (!record.getUserId().equals(userId)) {
-            throw new RPanBusinessException("您没有该文件的操作权限");
+            throw new RPanBusinessException("You do not have permission to operate this file");
         }
     }
 
@@ -839,7 +839,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
      */
     private boolean checkIsFolder(RPanUserFile record) {
         if (Objects.isNull(record)) {
-            throw new RPanBusinessException("当前文件记录不存在");
+            throw new RPanBusinessException("Current file record does not exist");
         }
         return FolderFlagEnum.YES.getCode().equals(record.getFolderFlag());
     }
@@ -907,7 +907,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
         updateWrapper.set("update_time", new Date());
 
         if (!update(updateWrapper)) {
-            throw new RPanBusinessException("文件删除失败");
+            throw new RPanBusinessException("File Deletion Failure");
         }
     }
 
@@ -924,7 +924,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
 
         List<RPanUserFile> rPanUserFiles = listByIds(fileIdList);
         if (rPanUserFiles.size() != fileIdList.size()) {
-            throw new RPanBusinessException("存在不合法的文件记录");
+            throw new RPanBusinessException("Existence of illegal documentation");
         }
 
         Set<Long> fileIdSet = rPanUserFiles.stream().map(RPanUserFile::getFileId).collect(Collectors.toSet());
@@ -933,17 +933,17 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
         int newSize = fileIdSet.size();
 
         if (oldSize != newSize) {
-            throw new RPanBusinessException("存在不合法的文件记录");
+            throw new RPanBusinessException("Existence of illegal documentation");
         }
 
         Set<Long> userIdSet = rPanUserFiles.stream().map(RPanUserFile::getUserId).collect(Collectors.toSet());
         if (userIdSet.size() != 1) {
-            throw new RPanBusinessException("存在不合法的文件记录");
+            throw new RPanBusinessException("Existence of illegal documentation");
         }
 
         Long dbUserId = userIdSet.stream().findFirst().get();
         if (!Objects.equals(dbUserId, context.getUserId())) {
-            throw new RPanBusinessException("当前登录用户没有删除该文件的权限");
+            throw new RPanBusinessException("The currently logged in user does not have permission to delete the file");
         }
     }
 
@@ -968,7 +968,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
                               String fileSizeDesc) {
         RPanUserFile entity = assembleRPanFUserFile(parentId, userId, filename, folderFlagEnum, fileType, realFileId, fileSizeDesc);
         if (!save((entity))) {
-            throw new RPanBusinessException("保存文件信息失败");
+            throw new RPanBusinessException("Failed to save file information");
         }
         return entity.getFileId();
     }
@@ -1096,7 +1096,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
         entity.setUpdateTime(new Date());
 
         if (!updateById(entity)) {
-            throw new RPanBusinessException("文件重命名失败");
+            throw new RPanBusinessException("File renaming failure");
         }
     }
 
@@ -1116,15 +1116,15 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
         RPanUserFile entity = getById(fileId);
 
         if (Objects.isNull(entity)) {
-            throw new RPanBusinessException("该文件ID无效");
+            throw new RPanBusinessException("The file ID is invalid");
         }
 
         if (!Objects.equals(entity.getUserId(), context.getUserId())) {
-            throw new RPanBusinessException("当前登录用户没有修改该文件名称的权限");
+            throw new RPanBusinessException("The currently logged in user does not have permission to change the file name");
         }
 
         if (Objects.equals(entity.getFilename(), context.getNewFilename())) {
-            throw new RPanBusinessException("请换一个新的文件名称来修改");
+            throw new RPanBusinessException("Please change the file name with a new one");
         }
 
 
@@ -1134,7 +1134,7 @@ public class UserFileServiceImpl extends ServiceImpl<RPanUserFileMapper, RPanUse
         int count = count(queryWrapper);
 
         if (count > 0) {
-            throw new RPanBusinessException("该文件名称已被占用");
+            throw new RPanBusinessException("The file name is already taken");
         }
 
         context.setEntity(entity);

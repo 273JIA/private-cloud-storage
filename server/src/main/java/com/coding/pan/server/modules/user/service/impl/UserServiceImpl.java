@@ -111,7 +111,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
             cache.evict(UserConstants.USER_LOGIN_PREFIX + userId);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new RPanBusinessException("用户退出登录失败");
+            throw new RPanBusinessException("User Logout Failure");
         }
     }
 
@@ -125,7 +125,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
     public String checkUsername(CheckUsernameContext checkUsernameContext) {
         String question = baseMapper.selectQuestionByUsername(checkUsernameContext.getUsername());
         if (StringUtils.isBlank(question)) {
-            throw new RPanBusinessException("没有此用户");
+            throw new RPanBusinessException("No such user");
         }
         return question;
     }
@@ -145,7 +145,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
         int count = count(queryWrapper);
 
         if (count == 0) {
-            throw new RPanBusinessException("密保答案错误");
+            throw new RPanBusinessException("Wrong security answer");
         }
 
         return generateCheckAnswerToken(checkAnswerContext);
@@ -192,12 +192,12 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
     public UserInfoVO info(Long userId) {
         RPanUser entity = getById(userId);
         if (Objects.isNull(entity)) {
-            throw new RPanBusinessException("用户信息查询失败");
+            throw new RPanBusinessException("Failed to query user information");
         }
 
         RPanUserFile rPanUserFile = getUserRootFileInfo(userId);
         if (Objects.isNull(rPanUserFile)) {
-            throw new RPanBusinessException("查询用户根文件夹信息失败");
+            throw new RPanBusinessException("Failed to query user root folder information");
         }
 
         return userConverter.assembleUserInfoVO(entity, rPanUserFile);
@@ -221,7 +221,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
      */
     @Override
     public boolean removeByIds(Collection<? extends Serializable> idList) {
-        throw new RPanBusinessException("请更换手动缓存");
+        throw new RPanBusinessException("Please change to manual cache");
 //        return super.removeByIds(idList);
     }
 
@@ -243,7 +243,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
      */
     @Override
     public boolean updateBatchById(Collection<RPanUser> entityList) {
-        throw new RPanBusinessException("请更换手动缓存");
+        throw new RPanBusinessException("Please change to manual cache");
 //        return super.updateBatchById(entityList);
     }
 
@@ -265,7 +265,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
      */
     @Override
     public List<RPanUser> listByIds(Collection<? extends Serializable> idList) {
-        throw new RPanBusinessException("请更换手动缓存");
+        throw new RPanBusinessException("Please change to manual cache");
 //        return super.listByIds(idList);
     }
 
@@ -305,7 +305,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
         entity.setPassword(encNewPassword);
 
         if (!updateById(entity)) {
-            throw new RPanBusinessException("修改用户密码失败");
+            throw new RPanBusinessException("Failed to change user password");
         }
     }
 
@@ -321,14 +321,14 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
 
         RPanUser entity = getById(userId);
         if (Objects.isNull(entity)) {
-            throw new RPanBusinessException("用户信息不存在");
+            throw new RPanBusinessException("User information does not exist");
         }
         changePasswordContext.setEntity(entity);
 
         String encOldPassword = PasswordUtil.encryptPassword(entity.getSalt(), oldPassword);
         String dbOldPassword = entity.getPassword();
         if (!Objects.equals(encOldPassword, dbOldPassword)) {
-            throw new RPanBusinessException("旧密码不正确");
+            throw new RPanBusinessException("Old password incorrect");
         }
     }
 
@@ -342,7 +342,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
         String password = resetPasswordContext.getPassword();
         RPanUser entity = getRPanUserByUsername(username);
         if (Objects.isNull(entity)) {
-            throw new RPanBusinessException("用户信息不存在");
+            throw new RPanBusinessException("User information does not exist");
         }
 
         String newDbPassword = PasswordUtil.encryptPassword(entity.getSalt(), password);
@@ -350,7 +350,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
         entity.setUpdateTime(new Date());
 
         if (!updateById(entity)) {
-            throw new RPanBusinessException("重置用户密码失败");
+            throw new RPanBusinessException("Failed to reset user password");
         }
     }
 
@@ -367,7 +367,7 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
         }
         String tokenUsername = String.valueOf(value);
         if (!Objects.equals(tokenUsername, resetPasswordContext.getUsername())) {
-            throw new RPanBusinessException("token错误");
+            throw new RPanBusinessException("Token Error");
         }
     }
 
@@ -407,10 +407,10 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
         if (Objects.nonNull(entity)) {
             try {
                 if (!save(entity)) {
-                    throw new RPanBusinessException("用户注册失败");
+                    throw new RPanBusinessException("User registration failure");
                 }
             } catch (DuplicateKeyException duplicateKeyException) {
-                throw new RPanBusinessException("用户名已存在");
+                throw new RPanBusinessException("Username already exists");
             }
             return;
         }
@@ -462,14 +462,14 @@ public class UserServiceImpl extends ServiceImpl<RPanUserMapper, RPanUser> imple
 
         RPanUser entity = getRPanUserByUsername(username);
         if (Objects.isNull(entity)) {
-            throw new RPanBusinessException("用户名称不存在");
+            throw new RPanBusinessException("User name does not exist");
         }
 
         String salt = entity.getSalt();
         String encPassword = PasswordUtil.encryptPassword(salt, password);
         String dbPassword = entity.getPassword();
         if (!Objects.equals(encPassword, dbPassword)) {
-            throw new RPanBusinessException("密码信息不正确");
+            throw new RPanBusinessException("Incorrect password");
         }
 
         userLoginContext.setEntity(entity);

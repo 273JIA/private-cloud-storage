@@ -97,7 +97,7 @@ public class FileChunkServiceImpl extends ServiceImpl<RPanFileChunkMapper, RPanF
         record.setCreateUser(context.getUserId());
         record.setCreateTime(new Date());
         if (!save(record)) {
-            throw new RPanBusinessException("文件分片上传失败");
+            throw new RPanBusinessException("File Upload Failure");
         }
     }
 
@@ -114,7 +114,7 @@ public class FileChunkServiceImpl extends ServiceImpl<RPanFileChunkMapper, RPanF
             context.setRealPath(storeFileChunkContext.getRealPath());
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RPanBusinessException("文件分片上传失败");
+            throw new RPanBusinessException("File Upload Failure");
         }
     }
 

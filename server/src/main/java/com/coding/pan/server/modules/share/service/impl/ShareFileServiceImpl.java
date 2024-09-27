@@ -45,7 +45,7 @@ public class ShareFileServiceImpl extends ServiceImpl<RPanShareFileMapper, RPanS
         }
 
         if (!saveBatch(records)) {
-            throw new RPanBusinessException("保存文件分享关联关系失败");
+            throw new RPanBusinessException("Failed to save file sharing association");
         }
     }
 

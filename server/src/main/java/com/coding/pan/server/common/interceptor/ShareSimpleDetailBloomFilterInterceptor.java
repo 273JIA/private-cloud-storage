@@ -61,7 +61,7 @@ public class ShareSimpleDetailBloomFilterInterceptor implements BloomFilterInter
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         String encShareId = request.getParameter("shareId");
         if (StringUtils.isBlank(encShareId)) {
-            throw new RPanBusinessException("分享ID不能为空");
+            throw new RPanBusinessException("Share ID cannot be empty");
         }
         BloomFilter<Long> bloomFilter = manager.getFilter(BLOOM_FILTER_NAME);
         if (Objects.isNull(bloomFilter)) {

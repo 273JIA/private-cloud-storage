@@ -520,7 +520,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
     private void assembleShareSimpleUserInfo(QueryShareSimpleDetailContext context) {
         RPanUser record = iUserService.getById(context.getRecord().getCreateUser());
         if (Objects.isNull(record)) {
-            throw new RPanBusinessException("用户信息查询失败");
+            throw new RPanBusinessException("User information query failure");
         }
         ShareUserInfoVO shareUserInfoVO = new ShareUserInfoVO();
 
@@ -560,7 +560,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
     private void assembleShareUserInfo(QueryShareDetailContext context) {
         RPanUser record = iUserService.getById(context.getRecord().getCreateUser());
         if (Objects.isNull(record)) {
-            throw new RPanBusinessException("用户信息查询失败");
+            throw new RPanBusinessException("User information query failure");
         }
         ShareUserInfoVO shareUserInfoVO = new ShareUserInfoVO();
 
@@ -664,7 +664,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
     private void doCheckShareCode(CheckShareCodeContext context) {
         RPanShare record = context.getRecord();
         if (!Objects.equals(context.getShareCode(), record.getShareCode())) {
-            throw new RPanBusinessException("分享码错误");
+            throw new RPanBusinessException("Share Code Error");
         }
     }
 
@@ -706,7 +706,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
         queryWrapper.in("share_id", context.getShareIdList());
         queryWrapper.eq("create_user", context.getUserId());
         if (!iShareFileService.remove(queryWrapper)) {
-            throw new RPanBusinessException("取消分享失败");
+            throw new RPanBusinessException("Failed to cancel sharing");
         }
     }
 
@@ -718,7 +718,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
     private void doCancelShare(CancelShareContext context) {
         List<Long> shareIdList = context.getShareIdList();
         if (!removeByIds(shareIdList)) {
-            throw new RPanBusinessException("取消分享失败");
+            throw new RPanBusinessException("Failed to cancel sharing");
         }
     }
 
@@ -732,11 +732,11 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
         Long userId = context.getUserId();
         List<RPanShare> records = listByIds(shareIdList);
         if (CollectionUtils.isEmpty(records)) {
-            throw new RPanBusinessException("您无权限操作取消分享的动作");
+            throw new RPanBusinessException("You do not have permission to cancel the share");
         }
         for (RPanShare record : records) {
             if (!Objects.equals(userId, record.getCreateUser())) {
-                throw new RPanBusinessException("您无权限操作取消分享的动作");
+                throw new RPanBusinessException("You do not have permission to cancel the share");
             }
         }
     }
@@ -786,7 +786,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
 
         Integer shareDay = ShareDayTypeEnum.getShareDayByCode(context.getShareDayType());
         if (Objects.equals(RPanConstants.MINUS_ONE_INT, shareDay)) {
-            throw new RPanBusinessException("分享天数非法");
+            throw new RPanBusinessException("Sharing days is illegal");
         }
 
         record.setShareDay(shareDay);
@@ -798,7 +798,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
         record.setCreateTime(new Date());
 
         if (!save(record)) {
-            throw new RPanBusinessException("保存分享信息失败");
+            throw new RPanBusinessException("Failed to save sharing information");
         }
 
         context.setRecord(record);
@@ -821,7 +821,7 @@ public class ShareServiceImpl extends ServiceImpl<RPanShareMapper, RPanShare> im
      */
     private String createShareUrl(Long shareId) {
         if (Objects.isNull(shareId)) {
-            throw new RPanBusinessException("分享的ID不能为空");
+            throw new RPanBusinessException("Shared IDs cannot be empty");
         }
         String sharePrefix = config.getSharePrefix();
         if (!sharePrefix.endsWith(RPanConstants.SLASH_STR)) {
