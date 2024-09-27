@@ -18,8 +18,8 @@ public class CheckUsernamePO implements Serializable {
     private static final long serialVersionUID = 1795641889740242870L;
 
     @ApiModelProperty(value = "用户名", required = true)
-    @NotBlank(message = "用户名称不能为空")
-    @Pattern(regexp = "^[0-9A-Za-z]{6,16}$", message = "请输入6-16位只包含数字和字母的用户名")
+    @NotBlank(message = "Username cannot be empty")
+    @Pattern(regexp = "^[0-9A-Za-z]{6,16}$", message = "Please enter a username that is 6-16 characters long and contains only letters and numbers")
     private String username;
 
 }
